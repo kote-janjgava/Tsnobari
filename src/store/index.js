@@ -5,6 +5,7 @@ import habits from "./store-habits";
 import profile from "./store-profile";
 import auth from "./store-auth";
 import records from "./store-records";
+import tasks from "./store-tasks"
 
 Vue.use(Vuex);
 
@@ -23,7 +24,8 @@ export default function(/* { ssrContext } */) {
       habits,
       profile,
       auth,
-      records
+      records,
+      tasks
     },
 
     // enable strict mode (adds overhead!)

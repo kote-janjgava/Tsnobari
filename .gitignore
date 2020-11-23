@@ -33,11 +33,6 @@ yarn-error.log*
 *.sln
 
 # Firebase
-firebase.json
-.firebaserc
-.firebase
-.firebase-debug.log
-firebase-debug.log
 
 # Locks
 package-lock.json

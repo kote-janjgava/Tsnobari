@@ -106,8 +106,8 @@ module.exports = function(/* ctx */) {
       workboxPluginMode: "GenerateSW", // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: "Github Method",
-        short_name: "Github Method",
+        name: "Tsnobari Project",
+        short_name: "Tsnobari",
         description: "Habit maker social media",
         display: "standalone",
         orientation: "portrait",

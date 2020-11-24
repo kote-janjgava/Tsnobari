@@ -1,69 +1,141 @@
 <template>
-  <q-list bordered separator class="q-mb-md">
-    <q-item-label header>{{ title }}</q-item-label>
+  <q-page>
+    <div class="q-pa-md">
+      <q-markup-table>
+        <thead>
+        <tr>
+          <th colspan="5">
+            <div class="row no-wrap items-center">
+              <q-img
+                style="width: 70px"
+                :ratio="1"
+                class="rounded-borders"
+                src="https://cdn.quasar.dev/img/donuts.png"
+              />
+              <div class="text-h4 q-ml-md text-white">Employees</div>
+            </div>
+          </th>
+        </tr>
+        <tr>
+          <th class="text-left">Name</th>
+          <th class="text-right">Surname</th>
+          <th class="text-right">MobileNumber</th>
+          <th class="text-right">Position</th>
+          <th class="text-right">Status</th>
+          <th class="text-right">Password</th>
+          <th class="text-right">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          v-for="(task, key) in tasksTodo"
+          :key="key"
+          :task="task"
+          :id="key"
+        >
+          <td class="text-left">{{task.name}}</td>
+          <td class="text-right">{{task.surname}}</td>
+          <td class="text-right">{{task.mobileNumber}}</td>
+          <td class="text-right">{{task.position}}</td>
+          <td class="text-right">{{task.status}}</td>
+          <td class="text-right">{{task.password}}</td>
 
-    <q-separator />
 
-    <q-item v-for="contact in followers" :key="contact.id" class="q-mb-sm">
-      <q-item-section avatar>
-        <q-avatar>
-          <img :src="`https://cdn.quasar.dev/img/${contact.avatar}`" />
-        </q-avatar>
-      </q-item-section>
+          <td class="text-right">
+            <q-btn
+              @click.stop="showEditTaskModal()"
+              flat
+              round
+              dense
+              color="primary"
+              icon="edit" />
+            <q-btn
+              @click.stop="promptToDelete(key)"
+              flat
+              round
+              dense
+              color="red"
+              icon="delete" />
+          </td>
+        </tr>
+        </tbody>
+      </q-markup-table>
+    </div>
 
-      <q-item-section>
-        <q-item-label>{{ contact.name }}</q-item-label>
-        <q-item-label caption lines="1">{{ contact.email }}</q-item-label>
-      </q-item-section>
+    <div style="position: relative; margin-right: 10px;" class="absolute-bottom text-center q-mb-lg">
+      <q-btn
+        @click="showAddTask = true"
+        round
+        color="green"
+        size="24px"
+        icon="add"
+      />
+    </div>
 
-      <q-item-section side>
-        <q-btn
-          class="full-width"
-          color="white"
-          text-color="black"
-          label="Follow"
-        />
-      </q-item-section>
-    </q-item>
-  </q-list>
+    <q-dialog v-model="showAddTask">
+      <add-task @close="showAddTask = false" />
+    </q-dialog>
+
+
+
+    <q-dialog v-model="showEditTask">
+      <edit-task
+        @close="showEditTask = false"
+        :task="task"
+        :id="id"
+      />
+    </q-dialog>
+
+
+
+  </q-page>
 </template>
 
 <script>
-const followers = [
-  {
-        id: 5,
-        name: "Brunhilde Panswick",
-        email: "bpanswick4@csmonitor.com",
-        avatar: "avatar2.jpg"
-    },
-    {
-        id: 6,
-        name: "Winfield Stapforth",
-        email: "wstapforth5@pcworld.com",
-        avatar: "avatar3.jpg"
-    },
-    {
-        id: 7,
-        name: "Brunhilde Panswick",
-        email: "bpanswick4@csmonitor.com",
-        avatar: "avatar4.jpg"
-    },
-    {
-        id: 8,
-        name: "Winfield Stapforth",
-        email: "wstapforth5@pcworld.com",
-        avatar: "avatar6.jpg"
+    import { mapActions, mapGetters } from 'vuex'
+    export default {
+        props: ['task', 'id'],
+        data() {
+            return {
+                showAddTask: false,
+                showEditTask: false
+            }
+        },
+        computed: {
+            ...mapGetters('tasks', ['tasksTodo'])
+        },
+        methods: {
+            ...mapActions('tasks', ['updateTask', 'deleteTask']),
+            showEditTaskModal() {
+                this.showEditTask = true
+            },
+            promptToDelete(id) {
+                this.$q.dialog({
+                    title: 'Confirm',
+                    message: 'Really delete?',
+                    ok: {
+                        push: true
+                    },
+                    cancel: {
+                        color: 'negative'
+                    },
+                    persistent: true
+                }).onOk(() => {
+                    this.deleteTask(id)
+                })
+            }
+        },
+        mounted() {
+            this.$root.$on('showAddTask', () => {
+                this.showAddTask = true
+            })
+        },
+        components: {
+             'add-task' : require('components/AddTask2.vue').default,
+        }
     }
-];
-
-export default {
-  props: ["title"],
-  data() {
-    return {
-      followers
-    };
-  }
-};
 </script>
 
-<style lang="sass"></style>
+<style scoped>
+
+</style>

@@ -10,7 +10,7 @@
                 style="width: 70px"
                 :ratio="1"
                 class="rounded-borders"
-                src="https://cdn.quasar.dev/img/donuts.png"
+                src="https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Frebeccaskilbeck%2Ffiles%2F2019%2F02%2FMaintianing-Motivation-in-employees-Blog-Graphic-1200x861.jpg"
               />
               <div class="text-h4 q-ml-md text-white">Employees</div>
             </div>
@@ -39,7 +39,6 @@
           <td class="text-right">{{task.position}}</td>
           <td class="text-right">{{task.status}}</td>
           <td class="text-right">{{task.password}}</td>
-
 
           <td class="text-right">
             <q-btn
@@ -72,10 +71,10 @@
       />
     </div>
 
+
     <q-dialog v-model="showAddTask">
       <add-task @close="showAddTask = false" />
     </q-dialog>
-
 
 
     <q-dialog v-model="showEditTask">
@@ -85,6 +84,7 @@
         :id="id"
       />
     </q-dialog>
+
 
 
 
@@ -131,7 +131,8 @@
             })
         },
         components: {
-             'add-task' : require('components/AddTask2.vue').default,
+            'add-task' : require('components/AddPerson.vue').default,
+            'edit-task' : require('components/EditPerson.vue').default
         }
     }
 </script>

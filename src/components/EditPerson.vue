@@ -1,7 +1,7 @@
 <template>
   <q-card>
     <q-card-section class="row">
-      <div class="text-h6">Add Person</div>
+      <div class="text-h6">Edit Person</div>
       <q-space />
       <q-btn
         v-close-popup
@@ -15,35 +15,39 @@
       @submit.prevent="submitForm"
       @reset="onReset"
     >
+
       <q-card-section>
+
         <div class="row q-mb-sm">
           <q-input
-            style="width: 300px;"
             outlined
-            v-model="taskToSubmit.name"
+            :value="name"
+            @input="$emit('update:name', $event)"
             :rules="[val => !!val || 'Field is required']"
             autofocus
+            v-select-all
             ref="name"
-            label="Person name"
+            label="Task name"
             class="col">
             <template v-slot:append>
               <q-icon
-                v-if="taskToSubmit.name"
-                @click="taskToSubmit.name = ''"
+                v-if="name"
+                @click="$emit('update:name', '')"
                 name="close"
                 class="cursor-pointer" />
             </template>
           </q-input>
         </div>
+
         <div class="row q-mb-sm">
           <q-input
             style="width: 300px;"
             outlined
             ref="surname"
-            label="Person surname"
+            label="Surname"
             v-model="taskToSubmit.surname"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Please type something']"
+            :rules="[ val => val && val.length > 0 || 'Please type your Surname']"
           >
             <template v-slot:append>
               <q-icon
@@ -54,15 +58,16 @@
             </template>
           </q-input>
         </div>
+
         <div class="row q-mb-sm">
           <q-input
             style="width: 300px;"
             outlined
-            ref="surname"
-            label="Person password"
+            ref="password"
+            label="Password"
             v-model="taskToSubmit.password"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Please type something']"
+            :rules="[ val => val && val.length > 0 || 'Please type your password']"
           >
             <template v-slot:append>
               <q-icon
@@ -73,15 +78,17 @@
             </template>
           </q-input>
         </div>
+
         <div class="row q-mb-sm">
           <q-input
             style="width: 300px;"
+            type="number"
             outlined
-            ref="surname"
-            label="Person mobileNumber"
+            ref="mobileNumber"
+            label="MobileNumber"
             v-model="taskToSubmit.mobileNumber"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Please type something']"
+            :rules="[ val => val && val.length > 0 || 'Please type your mobileNumber']"
           >
             <template v-slot:append>
               <q-icon
@@ -94,14 +101,15 @@
         </div>
 
         <div class="row q-mb-sm">
-          <q-input
+          <q-select
             style="width: 300px;"
             outlined
-            ref="surname"
-            label="Person position"
+            ref="position"
+            label="Position"
             v-model="taskToSubmit.position"
+            :options="taskToSubmit.options"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Please type something']"
+            :rules="[ val => val && val.length > 0 || 'Please type your position']"
           >
             <template v-slot:append>
               <q-icon
@@ -110,30 +118,22 @@
                 name="close"
                 class="cursor-pointer" />
             </template>
-          </q-input>
+          </q-select>
         </div>
 
         <div class="row q-mb-sm">
-          <q-input
-            style="width: 300px;"
-            outlined
-            ref="surname"
-            label="Person status"
+          <q-checkbox
             v-model="taskToSubmit.status"
-            lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Please type something']"
-          >
-            <template v-slot:append>
-              <q-icon
-                v-if="taskToSubmit.status"
-                @click="taskToSubmit.status = ''"
-                name="close"
-                class="cursor-pointer" />
-            </template>
-          </q-input>
+            color="secondary"
+            label="Status"
+            true-value="Active"
+            false-value="Passive"
+          />
         </div>
 
-
+        <div class="q-px-sm">
+          Choose your Status: <strong>'{{ taskToSubmit.status }}'</strong>
+        </div>
 
       </q-card-section>
       <q-card-actions align="right">
@@ -149,41 +149,39 @@
 </template>
 
 <script>
+    import { selectAll } from 'src/directives/directive-select-all'
     import { mapActions } from 'vuex'
-
-
+    import mixinAddEditTask from 'src/mixins/mixin-add-edit-habit'
     export default {
+        mixins: [mixinAddEditTask],
+        props: ['name'],
+        directives: {
+            selectAll
+        },
         data() {
             return {
-                taskToSubmit: {
-                    name: '',
-                    surname: '',
-                    mobileNumber: '',
-                    position: '',
-                    status: '',
-                    password: '',
-                }
+                taskToSubmit: {}
             }
         },
         methods: {
-            ...mapActions('tasks', ['addTask']),
-            submitForm() {
-                this.$refs.name.validate()
-                this.$refs.surname.validate()
-                if (!this.$refs.name.hasError && !this.$refs.surname.hasError) {
-                    this.submitTask()
-                }
-            },
+            ...mapActions('tasks', ['updateTask']),
             submitTask() {
-                this.addTask(this.taskToSubmit)
+                this.updateTask({
+                    id: this.id,
+                    updates: this.taskToSubmit
+                })
                 this.$emit('close')
+            },
+            mounted() {
+                this.taskToSubmit = Object.assign({}, this.task)
             },
             onReset () {
                 this.taskToSubmit.name = null
                 this.taskToSubmit.surname = null
-                this.taskToSubmit.model = null
-                this.taskToSubmit.gender = null
-                this.taskToSubmit.customModel = null
+                this.taskToSubmit.password = null
+                this.taskToSubmit.mobileNumber = null
+                this.taskToSubmit.position = null
+                this.taskToSubmit.status = null
             }
         }
     }

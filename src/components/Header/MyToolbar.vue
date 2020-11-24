@@ -1,6 +1,13 @@
 <template>
   <q-toolbar class="test">
-
+    <q-btn
+      color="white"
+      class="absolute-top-center"
+      flat
+      round
+      @click="$q.dark.toggle()"
+      :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"
+    />
 
     <q-space />
 

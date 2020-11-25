@@ -9,9 +9,9 @@
       clickable
       to="following"
       name="following"
-      label="Following (7)"
+      label="Employees 2"
     >
-    </q-route-tab>-->
+    </q-route-tab>
   </q-tabs>
 </template>
 

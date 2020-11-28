@@ -166,13 +166,19 @@
             }
         },
         methods: {
-            ...mapActions('tasks', ['addTask']),
+            ...mapActions('people', ['addTask']),
             submitForm() {
                 this.$refs.name.validate()
                 this.$refs.surname.validate()
                 this.$refs.password.validate()
                 this.$refs.mobileNumber.validate()
                 this.$refs.position.validate()
+                this.$q.notify({
+                    color: 'green-4',
+                    textColor: 'white',
+                    icon: 'cloud_done',
+                    message: 'Person Add!'
+                })
                 if (!this.$refs.name.hasError && !this.$refs.surname.hasError && !this.$refs.password.hasError && !this.$refs.mobileNumber.hasError && !this.$refs.position.hasError) {
                     this.submitTask()
                 }

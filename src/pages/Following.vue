@@ -160,7 +160,6 @@
                 this.editedIndex = this.data.indexOf(item);
                 this.editedItem = Object.assign({}, item);
                 this.show_dialog = true;
-
             },
             close () {
                 this.show_dialog = false

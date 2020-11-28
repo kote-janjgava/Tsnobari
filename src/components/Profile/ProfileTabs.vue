@@ -5,12 +5,16 @@
 
     <q-route-tab to="/followers" name="followers" label="Employees">
     </q-route-tab>
+
     <q-route-tab
       clickable
       to="following"
       name="following"
       label="Employees 2"
     >
+    </q-route-tab>
+
+    <q-route-tab to="/Employees" name="Employees" label="Employees 3">
     </q-route-tab>
   </q-tabs>
 </template>

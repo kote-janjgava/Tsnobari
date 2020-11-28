@@ -173,17 +173,18 @@
                 this.$refs.password.validate()
                 this.$refs.mobileNumber.validate()
                 this.$refs.position.validate()
+
+                if (!this.$refs.name.hasError && !this.$refs.surname.hasError && !this.$refs.password.hasError && !this.$refs.mobileNumber.hasError && !this.$refs.position.hasError) {
+                    this.submitTask()
+                }
+            },
+            submitTask() {
                 this.$q.notify({
                     color: 'green-4',
                     textColor: 'white',
                     icon: 'cloud_done',
                     message: 'Person Add!'
                 })
-                if (!this.$refs.name.hasError && !this.$refs.surname.hasError && !this.$refs.password.hasError && !this.$refs.mobileNumber.hasError && !this.$refs.position.hasError) {
-                    this.submitTask()
-                }
-            },
-            submitTask() {
                 this.addTask(this.taskToSubmit)
                 this.$emit('close')
             },

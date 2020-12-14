@@ -37,7 +37,7 @@ const actions = {
     firebaseAuth
       .signInWithEmailAndPassword(payload.email, payload.password)
       .then(response => {
-        //console.log("Response: ", response);
+        console.log("Response: ", response);
       })
       .catch(error => {
         showErrorMessage(error.message);

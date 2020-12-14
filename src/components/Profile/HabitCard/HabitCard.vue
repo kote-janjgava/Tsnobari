@@ -5,7 +5,7 @@
         <div class="col-7">
           <div class="text-subtitle1">{{ name }}</div>
           <div class="text-subtitle2">
-            How did you handle your habit today?
+            How was your mood today?
           </div>
         </div>
 
